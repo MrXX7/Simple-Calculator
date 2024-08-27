@@ -11,6 +11,7 @@ struct ContentView: View {
     @State private var display = "0"
     @State private var currentOperation: String? = nil
     @State private var firstOperand: Double? = nil
+    @State private var isShowingResult = false
 
     var body: some View {
         VStack {
@@ -31,7 +32,7 @@ struct ContentView: View {
                 ForEach(buttonRows, id: \.self) { row in
                     HStack(spacing: 10) {
                         ForEach(row, id: \.self) { button in
-                            CalculatorButton(title: button) {
+                            CalculatorButton(title: button, color: buttonColor(for: button)) {
                                 self.buttonTapped(button)
                             }
                         }
@@ -40,7 +41,7 @@ struct ContentView: View {
             }
             .padding(.horizontal)
         }
-        .background(Color.gray.opacity(0.2))
+        .background(Color.gray.opacity(0.1))
         .ignoresSafeArea()
     }
 
@@ -52,8 +53,13 @@ struct ContentView: View {
     ]
 
     private func buttonTapped(_ button: String) {
+        if isShowingResult {
+            display = "0"
+            isShowingResult = false
+        }
+
         if let _ = Double(button) {
-            if display == "0" {
+            if display == "0" || isShowingResult {
                 display = button
             } else {
                 display += button
@@ -64,6 +70,7 @@ struct ContentView: View {
             }
         } else if button == "=" {
             calculateResult()
+            isShowingResult = true
         } else {
             currentOperation = button
             firstOperand = Double(display)
@@ -98,10 +105,21 @@ struct ContentView: View {
             self.firstOperand = nil
         }
     }
+
+    private func buttonColor(for title: String) -> Color {
+        if let _ = Double(title) {
+            return Color(.systemGray)
+        } else if title == "=" {
+            return Color.orange
+        } else {
+            return Color(.systemOrange)
+        }
+    }
 }
 
 struct CalculatorButton: View {
     var title: String
+    var color: Color
     var action: () -> Void
 
     var body: some View {
@@ -109,9 +127,10 @@ struct CalculatorButton: View {
             Text(title)
                 .font(.largeTitle)
                 .frame(width: 80, height: 80)
-                .background(Color.blue)
+                .background(color)
                 .foregroundColor(.white)
                 .cornerRadius(40)
+                .shadow(radius: 5)
         }
     }
 }
@@ -121,3 +140,4 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
