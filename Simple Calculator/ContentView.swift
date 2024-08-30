@@ -11,7 +11,7 @@ struct ContentView: View {
     @State private var display = "0"
     @State private var currentOperation: String? = nil
     @State private var firstOperand: Double? = nil
-    @State private var isShowingResult = false
+    @State private var isSecondOperand = false
 
     var body: some View {
         VStack {
@@ -53,16 +53,16 @@ struct ContentView: View {
     ]
 
     private func buttonTapped(_ button: String) {
-        if isShowingResult {
-            display = "0"
-            isShowingResult = false
-        }
-
         if let _ = Double(button) {
-            if display == "0" || isShowingResult {
+            if isSecondOperand {
                 display = button
+                isSecondOperand = false
             } else {
-                display += button
+                if display == "0" {
+                    display = button
+                } else {
+                    display += button
+                }
             }
         } else if button == "." {
             if !display.contains(".") {
@@ -70,11 +70,12 @@ struct ContentView: View {
             }
         } else if button == "=" {
             calculateResult()
-            isShowingResult = true
         } else {
+            if !isSecondOperand {
+                firstOperand = Double(display)
+                isSecondOperand = true
+            }
             currentOperation = button
-            firstOperand = Double(display)
-            display = "0"
         }
     }
 
@@ -103,6 +104,7 @@ struct ContentView: View {
 
             currentOperation = nil
             self.firstOperand = nil
+            isSecondOperand = false
         }
     }
 
@@ -140,4 +142,5 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
 
