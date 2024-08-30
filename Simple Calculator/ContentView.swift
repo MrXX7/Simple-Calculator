@@ -14,35 +14,37 @@ struct ContentView: View {
     @State private var isSecondOperand = false
 
     var body: some View {
-        VStack {
-            Spacer()
+        GeometryReader { geometry in
+            VStack {
+                Spacer()
 
-            Text(display)
-                .font(.system(size: 70))
-                .foregroundColor(.white)
-                .padding()
-                .frame(maxWidth: .infinity, alignment: .trailing)
-                .background(Color.black)
-                .cornerRadius(10)
-                .padding(.horizontal)
+                Text(display)
+                    .font(.system(size: 70))
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .background(Color.black)
+                    .cornerRadius(10)
+                    .padding(.horizontal)
 
-            Spacer()
+                Spacer()
 
-            VStack(spacing: 10) {
-                ForEach(buttonRows, id: \.self) { row in
-                    HStack(spacing: 10) {
-                        ForEach(row, id: \.self) { button in
-                            CalculatorButton(title: button, color: buttonColor(for: button)) {
-                                self.buttonTapped(button)
+                VStack(spacing: 10) {
+                    ForEach(buttonRows, id: \.self) { row in
+                        HStack(spacing: 10) {
+                            ForEach(row, id: \.self) { button in
+                                CalculatorButton(title: button, color: buttonColor(for: button), size: geometry.size.width / 5) {
+                                    self.buttonTapped(button)
+                                }
                             }
                         }
                     }
                 }
+                .padding(.horizontal)
             }
-            .padding(.horizontal)
+            .background(Color.gray.opacity(0.1))
+            .ignoresSafeArea()
         }
-        .background(Color.gray.opacity(0.1))
-        .ignoresSafeArea()
     }
 
     let buttonRows: [[String]] = [
@@ -122,16 +124,17 @@ struct ContentView: View {
 struct CalculatorButton: View {
     var title: String
     var color: Color
+    var size: CGFloat
     var action: () -> Void
 
     var body: some View {
         Button(action: action) {
             Text(title)
                 .font(.largeTitle)
-                .frame(width: 80, height: 80)
+                .frame(width: size, height: size)
                 .background(color)
                 .foregroundColor(.white)
-                .cornerRadius(40)
+                .cornerRadius(size / 2)
                 .shadow(radius: 5)
         }
     }
@@ -142,5 +145,6 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
 
 
