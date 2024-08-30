@@ -15,7 +15,7 @@ struct ContentView: View {
 
     var body: some View {
         GeometryReader { geometry in
-            VStack {
+            VStack(spacing: 0) {
                 Spacer()
 
                 Text(display)
@@ -41,6 +41,7 @@ struct ContentView: View {
                     }
                 }
                 .padding(.horizontal)
+                .padding(.bottom, geometry.safeAreaInsets.bottom) // Butonların en alt kısma dayanmasını engeller
             }
             .background(Color.gray.opacity(0.1))
             .ignoresSafeArea()
@@ -145,6 +146,7 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
 
 
 
