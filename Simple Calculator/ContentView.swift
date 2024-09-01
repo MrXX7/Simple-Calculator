@@ -8,136 +8,130 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var display = "0"
-    @State private var currentOperation: String? = nil
-    @State private var firstOperand: Double? = nil
-    @State private var isSecondOperand = false
-
+    @State private var displayValue = "0"
+    @State private var firstValue: Double? = nil
+    @State private var operation: String? = nil
+    @State private var inTheMiddleOfTyping = false
+    
+    let buttons = [
+        ["AC", "+/-", "%", "/"],
+        ["7", "8", "9", "*"],
+        ["4", "5", "6", "-"],
+        ["1", "2", "3", "+"],
+        ["0", ".", "="]
+    ]
+    
     var body: some View {
-        GeometryReader { geometry in
-            VStack(spacing: 0) {
-                Spacer()
-
-                Text(display)
-                    .font(.system(size: 70))
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-                    .background(Color.black)
-                    .cornerRadius(10)
-                    .padding(.horizontal)
-
-                Spacer()
-
-                VStack(spacing: 10) {
-                    ForEach(buttonRows, id: \.self) { row in
-                        HStack(spacing: 10) {
-                            ForEach(row, id: \.self) { button in
-                                CalculatorButton(title: button, color: buttonColor(for: button), size: geometry.size.width / 5) {
-                                    self.buttonTapped(button)
-                                }
+        VStack {
+            Spacer()
+            
+            Text(displayValue)
+                .font(.system(size: 64))
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .background(Color.black)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+                .padding(.horizontal)
+            
+            Spacer()
+            
+            VStack(spacing: 15) {
+                ForEach(buttons, id: \.self) { row in
+                    HStack(spacing: 15) {
+                        ForEach(row, id: \.self) { button in
+                            Button(action: {
+                                self.buttonTapped(button)
+                            }) {
+                                Text(button)
+                                    .font(.system(size: 32))
+                                    .frame(width: self.buttonWidth(button: button), height: self.buttonHeight())
+                                    .background(self.isOperator(button) ? Color.orange : Color.gray)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(self.buttonWidth(button: button) / 2)
                             }
                         }
                     }
                 }
-                .padding(.horizontal)
-                .padding(.bottom, geometry.safeAreaInsets.bottom) // Butonların en alt kısma dayanmasını engeller
             }
-            .background(Color.gray.opacity(0.1))
-            .ignoresSafeArea()
+            .padding(.horizontal)
+            
+            Spacer()
         }
+        .background(Color.white)
     }
-
-    let buttonRows: [[String]] = [
-        ["7", "8", "9", "/"],
-        ["4", "5", "6", "*"],
-        ["1", "2", "3", "-"],
-        ["0", ".", "=", "+"]
-    ]
-
-    private func buttonTapped(_ button: String) {
-        if let _ = Double(button) {
-            if isSecondOperand {
-                display = button
-                isSecondOperand = false
+    
+    func buttonTapped(_ button: String) {
+        switch button {
+        case "0"..."9", ".":
+            if inTheMiddleOfTyping {
+                displayValue += button
             } else {
-                if display == "0" {
-                    display = button
-                } else {
-                    display += button
-                }
+                displayValue = button
+                inTheMiddleOfTyping = true
             }
-        } else if button == "." {
-            if !display.contains(".") {
-                display += button
+        case "AC":
+            displayValue = "0"
+            firstValue = nil
+            operation = nil
+            inTheMiddleOfTyping = false
+        case "+", "-", "*", "/":
+            if let firstValue = firstValue, inTheMiddleOfTyping {
+                let result = calculateResult()
+                displayValue = "\(result)"
+                self.firstValue = result
+            } else {
+                firstValue = Double(displayValue)
             }
-        } else if button == "=" {
-            calculateResult()
-        } else {
-            if !isSecondOperand {
-                firstOperand = Double(display)
-                isSecondOperand = true
+            operation = button
+            inTheMiddleOfTyping = false
+        case "=":
+            if let _ = firstValue, let operation = operation {
+                let result = calculateResult()
+                displayValue = "\(result)"
+                self.firstValue = nil
+                self.operation = nil
+                inTheMiddleOfTyping = false
             }
-            currentOperation = button
+        default:
+            break
         }
     }
-
-    private func calculateResult() {
-        if let operation = currentOperation, let firstOperand = firstOperand, let secondOperand = Double(display) {
-            let result: Double?
-
+    
+    func isOperator(_ button: String) -> Bool {
+        return button == "/" || button == "*" || button == "-" || button == "+" || button == "=" || button == "AC" || button == "+/-" || button == "%"
+    }
+    
+    func buttonWidth(button: String) -> CGFloat {
+        if button == "0" {
+            return (UIScreen.main.bounds.width - 4 * 15) / 2
+        }
+        return (UIScreen.main.bounds.width - 5 * 15) / 4
+    }
+    
+    func buttonHeight() -> CGFloat {
+        return (UIScreen.main.bounds.width - 5 * 15) / 4
+    }
+    
+    func calculateResult() -> Double {
+        let secondValue = Double(displayValue) ?? 0.0
+        var result: Double = 0.0
+        
+        if let firstValue = firstValue {
             switch operation {
             case "+":
-                result = firstOperand + secondOperand
+                result = firstValue + secondValue
             case "-":
-                result = firstOperand - secondOperand
+                result = firstValue - secondValue
             case "*":
-                result = firstOperand * secondOperand
+                result = firstValue * secondValue
             case "/":
-                result = secondOperand != 0 ? firstOperand / secondOperand : nil
+                result = firstValue / secondValue
             default:
-                result = nil
+                break
             }
-
-            if let result = result {
-                display = String(result)
-            } else {
-                display = "Error"
-            }
-
-            currentOperation = nil
-            self.firstOperand = nil
-            isSecondOperand = false
         }
-    }
-
-    private func buttonColor(for title: String) -> Color {
-        if let _ = Double(title) {
-            return Color(.systemGray)
-        } else if title == "=" {
-            return Color.orange
-        } else {
-            return Color(.systemOrange)
-        }
-    }
-}
-
-struct CalculatorButton: View {
-    var title: String
-    var color: Color
-    var size: CGFloat
-    var action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            Text(title)
-                .font(.largeTitle)
-                .frame(width: size, height: size)
-                .background(color)
-                .foregroundColor(.white)
-                .cornerRadius(size / 2)
-                .shadow(radius: 5)
-        }
+        return result
     }
 }
 
@@ -146,6 +140,8 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+
 
 
 
