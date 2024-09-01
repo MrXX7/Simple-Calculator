@@ -78,7 +78,7 @@ struct ContentView: View {
         case "+", "-", "*", "/":
             if let firstValue = firstValue, inTheMiddleOfTyping {
                 let result = calculateResult()
-                displayValue = "\(result)"
+                displayValue = formatResult(result)
                 self.firstValue = result
             } else {
                 firstValue = Double(displayValue)
@@ -88,7 +88,7 @@ struct ContentView: View {
         case "=":
             if let _ = firstValue, let operation = operation {
                 let result = calculateResult()
-                displayValue = "\(result)"
+                displayValue = formatResult(result)
                 self.firstValue = nil
                 self.operation = nil
                 inTheMiddleOfTyping = false
@@ -133,6 +133,14 @@ struct ContentView: View {
         }
         return result
     }
+    
+    func formatResult(_ result: Double) -> String {
+        if result.truncatingRemainder(dividingBy: 1) == 0 {
+            return String(Int(result))
+        } else {
+            return String(result)
+        }
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
@@ -140,6 +148,7 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
 
 
 
