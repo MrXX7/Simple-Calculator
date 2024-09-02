@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct ContentView: View {
     @State private var displayValue = "0"
@@ -20,6 +21,9 @@ struct ContentView: View {
         ["1", "2", "3", "+"],
         ["0", ".", "="]
     ]
+    
+    // Haptic feedback generator
+    let feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
     
     var body: some View {
         VStack {
@@ -62,6 +66,9 @@ struct ContentView: View {
     }
     
     func buttonTapped(_ button: String) {
+        // Haptic feedback tetikleyici
+        feedbackGenerator.impactOccurred()
+        
         switch button {
         case "0"..."9", ".":
             if inTheMiddleOfTyping {
@@ -78,7 +85,7 @@ struct ContentView: View {
         case "+", "-", "*", "/":
             if let firstValue = firstValue, inTheMiddleOfTyping {
                 let result = calculateResult()
-                displayValue = formatResult(result)
+                displayValue = "\(Int(result))"
                 self.firstValue = result
             } else {
                 firstValue = Double(displayValue)
@@ -88,7 +95,7 @@ struct ContentView: View {
         case "=":
             if let _ = firstValue, let operation = operation {
                 let result = calculateResult()
-                displayValue = formatResult(result)
+                displayValue = "\(Int(result))"
                 self.firstValue = nil
                 self.operation = nil
                 inTheMiddleOfTyping = false
@@ -133,14 +140,6 @@ struct ContentView: View {
         }
         return result
     }
-    
-    func formatResult(_ result: Double) -> String {
-        if result.truncatingRemainder(dividingBy: 1) == 0 {
-            return String(Int(result))
-        } else {
-            return String(result)
-        }
-    }
 }
 
 struct ContentView_Previews: PreviewProvider {
@@ -148,6 +147,7 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
 
 
 
