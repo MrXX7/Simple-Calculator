@@ -31,12 +31,14 @@ struct ContentView: View {
             
             Text(displayValue)
                 .font(.system(size: 64))
-                .padding()
+                .padding(.horizontal)
                 .frame(maxWidth: .infinity, alignment: .trailing)
+                .background(Color.black)
                 .foregroundColor(.white)
+                .cornerRadius(10)
                 .padding(.horizontal)
             
-            Spacer()
+            Spacer().frame(height: 10)  // Sonuç ekranı ile butonlar arasındaki boşluğu azalt
             
             VStack(spacing: 15) {
                 ForEach(buttons, id: \.self) { row in
@@ -57,8 +59,10 @@ struct ContentView: View {
                 }
             }
             .padding(.horizontal)
+            .padding(.bottom) // Butonları ekranın altında tut
+            
         }
-        .background(Color.black.edgesIgnoringSafeArea(.all)) // Arka planı siyah yapar
+        .background(Color.black.edgesIgnoringSafeArea(.all))
     }
     
     func buttonTapped(_ button: String) {
@@ -143,6 +147,8 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+
 
 
 
