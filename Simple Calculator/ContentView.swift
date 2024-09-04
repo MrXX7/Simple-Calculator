@@ -33,9 +33,7 @@ struct ContentView: View {
                 .font(.system(size: 64))
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .trailing)
-                .background(Color.black)
                 .foregroundColor(.white)
-                .cornerRadius(10)
                 .padding(.horizontal)
             
             Spacer()
@@ -59,10 +57,8 @@ struct ContentView: View {
                 }
             }
             .padding(.horizontal)
-            
-            Spacer()
         }
-        .background(Color.white)
+        .background(Color.black.edgesIgnoringSafeArea(.all)) // Arka planı siyah yapar
     }
     
     func buttonTapped(_ button: String) {
@@ -147,6 +143,7 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
 
 
 
