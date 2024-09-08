@@ -9,71 +9,69 @@ import SwiftUI
 
 struct ConversionToolView: View {
     @State private var inputValue: String = ""
-    @State private var selectedUnitFrom: String = "Meters"
-    @State private var selectedUnitTo: String = "Kilometers"
     @State private var convertedValue: String = ""
+    @State private var selectedFromUnit: String = "Meters"
+    @State private var selectedToUnit: String = "Kilometers"
     
-    let units = ["Meters", "Kilometers", "Miles", "Yards"]
-    
+    let units = ["Meters", "Kilometers", "Miles", "Centimeters"]
+
     var body: some View {
-        VStack {
+        VStack(spacing: 20) {
             Text("Conversion Tool")
                 .font(.largeTitle)
                 .padding()
-            
-            // Input alanı
+
             HStack {
                 Text("Input")
                     .font(.title2)
+                    .padding(.leading)
                 Spacer()
                 TextField("Enter value", text: $inputValue)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .keyboardType(.decimalPad)
-                    .padding()
+                    .frame(width: 150)
             }
             .padding()
 
-            // Birim seçim araçları
             HStack {
-                Picker("From", selection: $selectedUnitFrom) {
+                Picker("From Unit", selection: $selectedFromUnit) {
                     ForEach(units, id: \.self) {
                         Text($0)
                     }
                 }
                 .pickerStyle(MenuPickerStyle())
-                
+                .padding(.horizontal)
+
                 Text("to")
-                
-                Picker("To", selection: $selectedUnitTo) {
+
+                Picker("To Unit", selection: $selectedToUnit) {
                     ForEach(units, id: \.self) {
                         Text($0)
                     }
                 }
                 .pickerStyle(MenuPickerStyle())
+                .padding(.horizontal)
             }
             .padding()
 
-            // Dönüşüm sonucu
             HStack {
                 Text("Converted")
                     .font(.title2)
+                    .padding(.leading)
                 Spacer()
                 Text(convertedValue.isEmpty ? "Result" : convertedValue)
                     .font(.title)
-                    .padding()
+                    .padding(.trailing)
             }
             .padding()
-            
-            // Dönüştürme butonu
-            Button(action: {
-                convert()
-            }) {
+
+            Button(action: convertUnits) {
                 Text("Convert")
                     .font(.title2)
                     .padding()
                     .background(Color.blue)
                     .foregroundColor(.white)
-                    .cornerRadius(10)
+                    .cornerRadius(8)
             }
             .padding()
 
@@ -82,24 +80,33 @@ struct ConversionToolView: View {
         .padding()
         .navigationBarTitle("Conversion Tool", displayMode: .inline)
     }
-    
-    // Basit dönüşüm fonksiyonu (örnek)
-    func convert() {
-        guard let input = Double(inputValue) else {
+
+    func convertUnits() {
+        // Conversion logic here
+        guard let value = Double(inputValue) else {
             convertedValue = "Invalid input"
             return
         }
-        
-        // Basit örnek dönüşüm (birimlerin oranlarını ayarlayın)
-        var result = input
-        if selectedUnitFrom == "Meters" && selectedUnitTo == "Kilometers" {
-            result = input / 1000
-        } else if selectedUnitFrom == "Kilometers" && selectedUnitTo == "Meters" {
-            result = input * 1000
+
+        let result: Double
+        switch (selectedFromUnit, selectedToUnit) {
+        case ("Meters", "Kilometers"):
+            result = value / 1000
+        case ("Kilometers", "Meters"):
+            result = value * 1000
+        case ("Miles", "Kilometers"):
+            result = value * 1.60934
+        case ("Kilometers", "Miles"):
+            result = value / 1.60934
+        case ("Meters", "Miles"):
+            result = value / 1609.34
+        case ("Miles", "Meters"):
+            result = value * 1609.34
+        default:
+            result = value
         }
-        // Ek dönüşümler eklenebilir
-        
-        convertedValue = String(format: "%.2f", result)
+
+        convertedValue = String(format: "%.3f", result)
     }
 }
 
@@ -108,5 +115,6 @@ struct ConversionToolView_Previews: PreviewProvider {
         ConversionToolView()
     }
 }
+
 
 
