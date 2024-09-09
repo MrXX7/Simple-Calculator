@@ -24,12 +24,20 @@ struct ConversionToolView: View {
             inputSection
             unitSelectionSection
             resultSection
-            convertButton
 
             Spacer()
         }
         .padding()
         .navigationBarTitle("Conversion Tool", displayMode: .inline)
+        .onChange(of: inputValue) { _ in
+            convertUnits()
+        }
+        .onChange(of: selectedFromUnit) { _ in
+            convertUnits()
+        }
+        .onChange(of: selectedToUnit) { _ in
+            convertUnits()
+        }
     }
 
     private var inputSection: some View {
@@ -82,18 +90,6 @@ struct ConversionToolView: View {
         .padding()
     }
 
-    private var convertButton: some View {
-        Button(action: convertUnits) {
-            Text("Convert")
-                .font(.title2)
-                .padding()
-                .background(Color.blue)
-                .foregroundColor(.white)
-                .cornerRadius(8)
-        }
-        .padding()
-    }
-
     private func convertUnits() {
         guard let value = Double(inputValue) else {
             convertedValue = "Invalid input"
@@ -127,6 +123,8 @@ struct ConversionToolView_Previews: PreviewProvider {
         ConversionToolView()
     }
 }
+
+
 
 
 
