@@ -10,18 +10,19 @@ import SwiftUI
 struct ConversionToolView: View {
     @State private var inputValue: String = ""
     @State private var convertedValue: String = ""
-    @State private var selectedFromUnit: String = "Meters"
-    @State private var selectedToUnit: String = "Kilometers"
+    @State private var selectedFromUnit: String = "m"
+    @State private var selectedToUnit: String = "km"
     
-    let units = ["Meters", "Kilometers", "Miles", "Centimeters"]
-    let presetValues = ["1", "225", "50", "100", "1000"]
+    let units = ["m", "km", "mi", "cm"]
+    let unitNames = ["Meters": "m", "Kilometers": "km", "Miles": "mi", "Centimeters": "cm"]
+    let presetValues = ["1", "10", "25", "50", "100", "250", "500", "1000"]
 
     var body: some View {
         VStack(spacing: 20) {
             Text("Conversion Tool")
                 .font(.largeTitle)
                 .padding()
-            
+
             // Preset Values
             HStack {
                 ForEach(presetValues, id: \.self) { value in
@@ -30,8 +31,8 @@ struct ConversionToolView: View {
                         convertUnits()
                     }) {
                         Text(value)
-                            .font(.title2)
-                            .padding()
+                            .font(.body)
+                            .padding(8)
                             .background(Color.gray.opacity(0.2))
                             .cornerRadius(8)
                     }
@@ -52,15 +53,16 @@ struct ConversionToolView: View {
             }
             .padding()
 
-            // Unit Selection
+            // From Unit Selection
             HStack {
                 ForEach(units, id: \.self) { unit in
                     Button(action: {
                         selectedFromUnit = unit
                         convertUnits()
                     }) {
-                        Text(unit)
-                            .padding()
+                        Text(unitNames.first { $0.value == unit }?.key ?? "")
+                            .font(.body)
+                            .padding(8)
                             .background(selectedFromUnit == unit ? Color.blue : Color.gray.opacity(0.2))
                             .foregroundColor(selectedFromUnit == unit ? .white : .black)
                             .cornerRadius(8)
@@ -69,18 +71,16 @@ struct ConversionToolView: View {
             }
             .padding()
 
-            HStack {
-                Text("to")
-                    .font(.title2)
-                    .padding(.horizontal)
-
+            // To Unit Selection
+            HStack{
                 ForEach(units, id: \.self) { unit in
                     Button(action: {
                         selectedToUnit = unit
                         convertUnits()
                     }) {
-                        Text(unit)
-                            .padding()
+                        Text(units.first { $0.value == unit }?.key ?? "")
+                            .font(.body)
+                            .padding(8)
                             .background(selectedToUnit == unit ? Color.blue : Color.gray.opacity(0.2))
                             .foregroundColor(selectedToUnit == unit ? .white : .black)
                             .cornerRadius(8)
@@ -124,17 +124,17 @@ struct ConversionToolView: View {
 
         let result: Double
         switch (selectedFromUnit, selectedToUnit) {
-        case ("Meters", "Kilometers"):
+        case ("m", "km"):
             result = value / 1000
-        case ("Kilometers", "Meters"):
+        case ("km", "m"):
             result = value * 1000
-        case ("Miles", "Kilometers"):
+        case ("mi", "km"):
             result = value * 1.60934
-        case ("Kilometers", "Miles"):
+        case ("km", "mi"):
             result = value / 1.60934
-        case ("Meters", "Miles"):
+        case ("m", "mi"):
             result = value / 1609.34
-        case ("Miles", "Meters"):
+        case ("mi", "m"):
             result = value * 1609.34
         default:
             result = value
@@ -149,6 +149,8 @@ struct ConversionToolView_Previews: PreviewProvider {
         ConversionToolView()
     }
 }
+
+
 
 
 
