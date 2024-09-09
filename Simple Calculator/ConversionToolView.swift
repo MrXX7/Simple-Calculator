@@ -14,16 +14,92 @@ struct ConversionToolView: View {
     @State private var selectedToUnit: String = "Kilometers"
     
     let units = ["Meters", "Kilometers", "Miles", "Centimeters"]
+    let presetValues = ["1", "225", "50", "100", "1000"]
 
     var body: some View {
         VStack(spacing: 20) {
             Text("Conversion Tool")
                 .font(.largeTitle)
                 .padding()
+            
+            // Preset Values
+            HStack {
+                ForEach(presetValues, id: \.self) { value in
+                    Button(action: {
+                        inputValue = value
+                        convertUnits()
+                    }) {
+                        Text(value)
+                            .font(.title2)
+                            .padding()
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(8)
+                    }
+                }
+            }
+            .padding()
 
-            inputSection
-            unitSelectionSection
-            resultSection
+            // Input Section
+            HStack {
+                Text("Input")
+                    .font(.title2)
+                    .padding(.leading)
+                Spacer()
+                TextField("Enter value", text: $inputValue)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .keyboardType(.decimalPad)
+                    .frame(width: 150)
+            }
+            .padding()
+
+            // Unit Selection
+            HStack {
+                ForEach(units, id: \.self) { unit in
+                    Button(action: {
+                        selectedFromUnit = unit
+                        convertUnits()
+                    }) {
+                        Text(unit)
+                            .padding()
+                            .background(selectedFromUnit == unit ? Color.blue : Color.gray.opacity(0.2))
+                            .foregroundColor(selectedFromUnit == unit ? .white : .black)
+                            .cornerRadius(8)
+                    }
+                }
+            }
+            .padding()
+
+            HStack {
+                Text("to")
+                    .font(.title2)
+                    .padding(.horizontal)
+
+                ForEach(units, id: \.self) { unit in
+                    Button(action: {
+                        selectedToUnit = unit
+                        convertUnits()
+                    }) {
+                        Text(unit)
+                            .padding()
+                            .background(selectedToUnit == unit ? Color.blue : Color.gray.opacity(0.2))
+                            .foregroundColor(selectedToUnit == unit ? .white : .black)
+                            .cornerRadius(8)
+                    }
+                }
+            }
+            .padding()
+
+            // Result Section
+            HStack {
+                Text("Converted")
+                    .font(.title2)
+                    .padding(.leading)
+                Spacer()
+                Text(convertedValue.isEmpty ? "Result" : convertedValue)
+                    .font(.title)
+                    .padding(.trailing)
+            }
+            .padding()
 
             Spacer()
         }
@@ -38,56 +114,6 @@ struct ConversionToolView: View {
         .onChange(of: selectedToUnit) { _ in
             convertUnits()
         }
-    }
-
-    private var inputSection: some View {
-        HStack {
-            Text("Input")
-                .font(.title2)
-                .padding(.leading)
-            Spacer()
-            TextField("Enter value", text: $inputValue)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .keyboardType(.decimalPad)
-                .frame(width: 150)
-        }
-        .padding()
-    }
-
-    private var unitSelectionSection: some View {
-        HStack {
-            Picker("From Unit", selection: $selectedFromUnit) {
-                ForEach(units, id: \.self) {
-                    Text($0)
-                }
-            }
-            .pickerStyle(MenuPickerStyle())
-            .padding(.horizontal)
-
-            Text("to")
-
-            Picker("To Unit", selection: $selectedToUnit) {
-                ForEach(units, id: \.self) {
-                    Text($0)
-                }
-            }
-            .pickerStyle(MenuPickerStyle())
-            .padding(.horizontal)
-        }
-        .padding()
-    }
-
-    private var resultSection: some View {
-        HStack {
-            Text("Converted")
-                .font(.title2)
-                .padding(.leading)
-            Spacer()
-            Text(convertedValue.isEmpty ? "Result" : convertedValue)
-                .font(.title)
-                .padding(.trailing)
-        }
-        .padding()
     }
 
     private func convertUnits() {
@@ -123,6 +149,7 @@ struct ConversionToolView_Previews: PreviewProvider {
         ConversionToolView()
     }
 }
+
 
 
 
