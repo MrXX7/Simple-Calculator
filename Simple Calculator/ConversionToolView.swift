@@ -15,7 +15,7 @@ struct ConversionToolView: View {
     
     let units = ["m", "km", "mi", "cm"]
     let unitNames = ["Meters": "m", "Kilometers": "km", "Miles": "mi", "Centimeters": "cm"]
-    let presetValues = ["1", "10", "25", "50", "100", "250", "500", "1000"]
+    let presetValues = ["1", "225", "50", "100", "1000"]
 
     var body: some View {
         VStack(spacing: 20) {
@@ -24,7 +24,7 @@ struct ConversionToolView: View {
                 .padding()
 
             // Preset Values
-            HStack {
+            HStack(spacing: 10) {
                 ForEach(presetValues, id: \.self) { value in
                     Button(action: {
                         inputValue = value
@@ -54,39 +54,21 @@ struct ConversionToolView: View {
             .padding()
 
             // From Unit Selection
-            HStack {
+            Picker("From Unit", selection: $selectedFromUnit) {
                 ForEach(units, id: \.self) { unit in
-                    Button(action: {
-                        selectedFromUnit = unit
-                        convertUnits()
-                    }) {
-                        Text(unitNames.first { $0.value == unit }?.key ?? "")
-                            .font(.body)
-                            .padding(8)
-                            .background(selectedFromUnit == unit ? Color.blue : Color.gray.opacity(0.2))
-                            .foregroundColor(selectedFromUnit == unit ? .white : .black)
-                            .cornerRadius(8)
-                    }
+                    Text(unitNames.first { $0.value == unit }?.key ?? "")
                 }
             }
+            .pickerStyle(SegmentedPickerStyle())
             .padding()
 
             // To Unit Selection
-            HStack{
+            Picker("To Unit", selection: $selectedToUnit) {
                 ForEach(units, id: \.self) { unit in
-                    Button(action: {
-                        selectedToUnit = unit
-                        convertUnits()
-                    }) {
-                        Text(units.first { $0.value == unit }?.key ?? "")
-                            .font(.body)
-                            .padding(8)
-                            .background(selectedToUnit == unit ? Color.blue : Color.gray.opacity(0.2))
-                            .foregroundColor(selectedToUnit == unit ? .white : .black)
-                            .cornerRadius(8)
-                    }
+                    Text(unitNames.first { $0.value == unit }?.key ?? "")
                 }
             }
+            .pickerStyle(SegmentedPickerStyle())
             .padding()
 
             // Result Section
@@ -149,6 +131,7 @@ struct ConversionToolView_Previews: PreviewProvider {
         ConversionToolView()
     }
 }
+
 
 
 
