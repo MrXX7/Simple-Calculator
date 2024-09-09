@@ -21,59 +21,10 @@ struct ConversionToolView: View {
                 .font(.largeTitle)
                 .padding()
 
-            HStack {
-                Text("Input")
-                    .font(.title2)
-                    .padding(.leading)
-                Spacer()
-                TextField("Enter value", text: $inputValue)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .keyboardType(.decimalPad)
-                    .frame(width: 150)
-            }
-            .padding()
-
-            HStack {
-                Picker("From Unit", selection: $selectedFromUnit) {
-                    ForEach(units, id: \.self) {
-                        Text($0)
-                    }
-                }
-                .pickerStyle(MenuPickerStyle())
-                .padding(.horizontal)
-
-                Text("to")
-
-                Picker("To Unit", selection: $selectedToUnit) {
-                    ForEach(units, id: \.self) {
-                        Text($0)
-                    }
-                }
-                .pickerStyle(MenuPickerStyle())
-                .padding(.horizontal)
-            }
-            .padding()
-
-            HStack {
-                Text("Converted")
-                    .font(.title2)
-                    .padding(.leading)
-                Spacer()
-                Text(convertedValue.isEmpty ? "Result" : convertedValue)
-                    .font(.title)
-                    .padding(.trailing)
-            }
-            .padding()
-
-            Button(action: convertUnits) {
-                Text("Convert")
-                    .font(.title2)
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
-            }
-            .padding()
+            inputSection
+            unitSelectionSection
+            resultSection
+            convertButton
 
             Spacer()
         }
@@ -81,8 +32,69 @@ struct ConversionToolView: View {
         .navigationBarTitle("Conversion Tool", displayMode: .inline)
     }
 
-    func convertUnits() {
-        // Conversion logic here
+    private var inputSection: some View {
+        HStack {
+            Text("Input")
+                .font(.title2)
+                .padding(.leading)
+            Spacer()
+            TextField("Enter value", text: $inputValue)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .keyboardType(.decimalPad)
+                .frame(width: 150)
+        }
+        .padding()
+    }
+
+    private var unitSelectionSection: some View {
+        HStack {
+            Picker("From Unit", selection: $selectedFromUnit) {
+                ForEach(units, id: \.self) {
+                    Text($0)
+                }
+            }
+            .pickerStyle(MenuPickerStyle())
+            .padding(.horizontal)
+
+            Text("to")
+
+            Picker("To Unit", selection: $selectedToUnit) {
+                ForEach(units, id: \.self) {
+                    Text($0)
+                }
+            }
+            .pickerStyle(MenuPickerStyle())
+            .padding(.horizontal)
+        }
+        .padding()
+    }
+
+    private var resultSection: some View {
+        HStack {
+            Text("Converted")
+                .font(.title2)
+                .padding(.leading)
+            Spacer()
+            Text(convertedValue.isEmpty ? "Result" : convertedValue)
+                .font(.title)
+                .padding(.trailing)
+        }
+        .padding()
+    }
+
+    private var convertButton: some View {
+        Button(action: convertUnits) {
+            Text("Convert")
+                .font(.title2)
+                .padding()
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(8)
+        }
+        .padding()
+    }
+
+    private func convertUnits() {
         guard let value = Double(inputValue) else {
             convertedValue = "Invalid input"
             return
@@ -115,6 +127,7 @@ struct ConversionToolView_Previews: PreviewProvider {
         ConversionToolView()
     }
 }
+
 
 
 
