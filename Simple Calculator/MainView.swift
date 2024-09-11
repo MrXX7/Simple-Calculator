@@ -7,19 +7,24 @@
 
 import SwiftUI
 
+
 struct MainView: View {
     var body: some View {
         TabView {
             CalculatorView()
                 .tabItem {
-                    Label("Calculator", systemImage: "plus.slash.minus")
+                    Image(systemName: "plus.slash.minus")
+                    Text("Calculator")
                 }
             
             ConversionToolView()
                 .tabItem {
-                    Label("Conversion", systemImage: "arrow.left.arrow.right")
+                    Image(systemName: "arrow.left.arrow.right")
+                    Text("Conversion")
                 }
         }
+        .accentColor(.orange) // Aktif sekme turuncu
+        .background(Color.black.edgesIgnoringSafeArea(.all)) // Arka planı siyah yap
     }
 }
 

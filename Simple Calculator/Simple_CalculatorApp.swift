@@ -10,14 +10,10 @@ import SwiftUI
 @main
 struct Simple_CalculatorApp: App {
     init() {
-            
-            UITabBar.appearance().backgroundColor = UIColor.white
-            
-            
-            UITabBar.appearance().tintColor = UIColor.systemBlue
-            
-            
-            UITabBar.appearance().unselectedItemTintColor = UIColor.gray
+        UITabBar.appearance().barTintColor = UIColor.black  // Arka plan rengini siyah yapar
+                UITabBar.appearance().backgroundColor = UIColor.black
+                UITabBar.appearance().tintColor = UIColor.orange  // Seçili sekme rengi
+                UITabBar.appearance().unselectedItemTintColor = UIColor.gray 
         }
 
     var body: some Scene {

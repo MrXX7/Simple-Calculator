@@ -12,10 +12,11 @@ struct ConversionToolView: View {
     @State private var convertedValue: String = ""
     @State private var selectedFromUnit: String = "m"
     @State private var selectedToUnit: String = "km"
+    @State private var selectedPresetValue: String = "1"
     
     let units = ["m", "km", "mi", "cm"]
     let unitNames = ["Meters": "m", "Kilometers": "km", "Miles": "mi", "Centimeters": "cm"]
-    let presetValues = ["1", "225", "50", "100", "1000"]
+    let presetValues = ["1", "10", "25", "50", "100", "250", "500", "1000"]
 
     var body: some View {
         VStack(spacing: 20) {
@@ -24,21 +25,17 @@ struct ConversionToolView: View {
                 .padding()
 
             // Preset Values
-            HStack(spacing: 10) {
+            Picker("Preset Values", selection: $selectedPresetValue) {
                 ForEach(presetValues, id: \.self) { value in
-                    Button(action: {
-                        inputValue = value
-                        convertUnits()
-                    }) {
-                        Text(value)
-                            .font(.body)
-                            .padding(8)
-                            .background(Color.gray.opacity(0.2))
-                            .cornerRadius(8)
-                    }
+                    Text(value)
                 }
             }
+            .pickerStyle(SegmentedPickerStyle())
             .padding()
+            .onChange(of: selectedPresetValue) { newValue in
+                inputValue = newValue
+                convertUnits()
+            }
 
             // Input Section
             HStack {
@@ -50,6 +47,9 @@ struct ConversionToolView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .keyboardType(.decimalPad)
                     .frame(width: 150)
+                    .onChange(of: inputValue) { _ in
+                        convertUnits()
+                    }
             }
             .padding()
 
@@ -61,6 +61,9 @@ struct ConversionToolView: View {
             }
             .pickerStyle(SegmentedPickerStyle())
             .padding()
+            .onChange(of: selectedFromUnit) { _ in
+                convertUnits()
+            }
 
             // To Unit Selection
             Picker("To Unit", selection: $selectedToUnit) {
@@ -70,6 +73,9 @@ struct ConversionToolView: View {
             }
             .pickerStyle(SegmentedPickerStyle())
             .padding()
+            .onChange(of: selectedToUnit) { _ in
+                convertUnits()
+            }
 
             // Result Section
             HStack {
@@ -87,15 +93,6 @@ struct ConversionToolView: View {
         }
         .padding()
         .navigationBarTitle("Conversion Tool", displayMode: .inline)
-        .onChange(of: inputValue) { _ in
-            convertUnits()
-        }
-        .onChange(of: selectedFromUnit) { _ in
-            convertUnits()
-        }
-        .onChange(of: selectedToUnit) { _ in
-            convertUnits()
-        }
     }
 
     private func convertUnits() {
@@ -131,6 +128,7 @@ struct ConversionToolView_Previews: PreviewProvider {
         ConversionToolView()
     }
 }
+
 
 
 
