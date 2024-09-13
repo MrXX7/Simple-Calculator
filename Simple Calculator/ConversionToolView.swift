@@ -23,6 +23,9 @@ struct ConversionToolView: View {
             Text("Conversion Tool")
                 .font(.largeTitle)
                 .padding()
+            
+            // Reset Button
+            
 
             // Preset Values
             Picker("Preset Values", selection: $selectedPresetValue) {
@@ -53,6 +56,17 @@ struct ConversionToolView: View {
             }
             .padding()
 
+            Button(action: reset) {
+                Image(systemName: "arrow.uturn.left")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 12, height: 12)
+                    .foregroundColor(.blue)
+                    .padding()
+            }
+            .padding(.top, -30)
+            .padding(.trailing, 20)
+            .frame(maxWidth: .infinity, alignment: .trailing)
             // From Unit Selection
             Picker("From Unit", selection: $selectedFromUnit) {
                 ForEach(units, id: \.self) { unit in
@@ -94,17 +108,10 @@ struct ConversionToolView: View {
         .padding()
         .navigationBarTitle("Conversion Tool", displayMode: .inline)
         .onAppear {
-            let appearance = UITabBarAppearance()
-            appearance.configureWithOpaqueBackground()
-            appearance.backgroundColor = UIColor.white
-
-            UITabBar.appearance().standardAppearance = appearance
-            UITabBar.appearance().scrollEdgeAppearance = appearance
+            setupConversionTabBarAppearance()
         }
-
     }
     
-
     private func convertUnits() {
         guard let value = Double(inputValue) else {
             convertedValue = "Invalid input"
@@ -131,6 +138,22 @@ struct ConversionToolView: View {
 
         convertedValue = String(format: "%.3f", result)
     }
+    
+    private func reset() {
+        inputValue = ""
+        convertedValue = ""
+        selectedFromUnit = "m"
+        selectedToUnit = "km"
+        selectedPresetValue = "1"
+    }
+    
+    func setupConversionTabBarAppearance() {
+        let appearance = UITabBarAppearance()
+        appearance.backgroundColor = UIColor.white
+        appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor.orange]
+        appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.orange]
+        UITabBar.appearance().standardAppearance = appearance
+    }
 }
 
 struct ConversionToolView_Previews: PreviewProvider {
@@ -138,6 +161,8 @@ struct ConversionToolView_Previews: PreviewProvider {
         ConversionToolView()
     }
 }
+
+
 
 
 

@@ -59,22 +59,16 @@ struct CalculatorView: View {
                 }
             }
             .padding(.horizontal)
-            .padding(.bottom) // Butonları ekranın altında tut
+            .padding(.bottom)
             
         }
         .background(Color.black.edgesIgnoringSafeArea(.all))
         .onAppear {
-            let appearance = UITabBarAppearance()
-            appearance.configureWithOpaqueBackground()
-            appearance.backgroundColor = UIColor.black
-
-            UITabBar.appearance().standardAppearance = appearance
-            UITabBar.appearance().scrollEdgeAppearance = appearance
+            setupTabBarAppearance()
         }
     }
     
     func buttonTapped(_ button: String) {
-        // Haptic feedback tetikleyici
         feedbackGenerator.impactOccurred()
         
         switch button {
@@ -116,6 +110,14 @@ struct CalculatorView: View {
     func isOperator(_ button: String) -> Bool {
         return button == "/" || button == "*" || button == "-" || button == "+" || button == "=" || button == "AC" || button == "+/-" || button == "%"
     }
+    func setupTabBarAppearance() {
+        let appearance = UITabBarAppearance()
+        appearance.backgroundColor = UIColor.black
+        appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor.orange]
+        appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.orange]
+        UITabBar.appearance().standardAppearance = appearance
+    }
+
     
     func buttonWidth(button: String) -> CGFloat {
         if button == "0" {
@@ -126,8 +128,7 @@ struct CalculatorView: View {
     
     func buttonHeight() -> CGFloat {
         return (UIScreen.main.bounds.width - 5 * 15) / 4
-    }
-    
+    }    
     func calculateResult() -> Double {
         let secondValue = Double(displayValue) ?? 0.0
         var result: Double = 0.0
