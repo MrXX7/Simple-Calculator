@@ -63,6 +63,14 @@ struct CalculatorView: View {
             
         }
         .background(Color.black.edgesIgnoringSafeArea(.all))
+        .onAppear {
+            let appearance = UITabBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = UIColor.black
+
+            UITabBar.appearance().standardAppearance = appearance
+            UITabBar.appearance().scrollEdgeAppearance = appearance
+        }
     }
     
     func buttonTapped(_ button: String) {
@@ -136,10 +144,11 @@ struct CalculatorView: View {
                 result = firstValue / secondValue
             default:
                 break
-            }
+            } 
         }
         return result
     }
+    
 }
 
 struct CalculatorView_Previews: PreviewProvider {

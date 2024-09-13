@@ -93,7 +93,17 @@ struct ConversionToolView: View {
         }
         .padding()
         .navigationBarTitle("Conversion Tool", displayMode: .inline)
+        .onAppear {
+            let appearance = UITabBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = UIColor.white
+
+            UITabBar.appearance().standardAppearance = appearance
+            UITabBar.appearance().scrollEdgeAppearance = appearance
+        }
+
     }
+    
 
     private func convertUnits() {
         guard let value = Double(inputValue) else {
