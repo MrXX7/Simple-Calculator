@@ -13,7 +13,8 @@ struct ConversionToolView: View {
     @State private var selectedFromUnit: String = "m"
     @State private var selectedToUnit: String = "km"
     @State private var selectedPresetValue: String = "1"
-    
+    @State private var showConvertedValue = false // Animasyon için yeni state
+
     let units = ["m", "km", "mi", "cm"]
     let unitNames = ["Meters": "m", "Kilometers": "km", "Miles": "mi", "Centimeters": "cm"]
     let presetValues = ["1", "10", "25", "50", "100", "250", "500", "1000"]
@@ -56,7 +57,11 @@ struct ConversionToolView: View {
             }
             .padding()
 
-            Button(action: reset) {
+            Button(action: {
+                withAnimation { // Sıfırlama animasyonu
+                    reset()
+                }
+            }) {
                 Image(systemName: "arrow.uturn.left")
                     .resizable()
                     .scaledToFit()
@@ -67,6 +72,7 @@ struct ConversionToolView: View {
             .padding(.top, -30)
             .padding(.trailing, 20)
             .frame(maxWidth: .infinity, alignment: .trailing)
+
             // From Unit Selection
             Picker("From Unit", selection: $selectedFromUnit) {
                 ForEach(units, id: \.self) { unit in
@@ -97,9 +103,14 @@ struct ConversionToolView: View {
                     .font(.title2)
                     .padding(.leading)
                 Spacer()
-                Text(convertedValue.isEmpty ? "Result" : convertedValue)
-                    .font(.title)
-                    .padding(.trailing)
+
+                // Animasyonla sonucu gösterme
+                if showConvertedValue {
+                    Text(convertedValue.isEmpty ? "Result" : convertedValue)
+                        .font(.title)
+                        .padding(.trailing)
+                        .transition(.scale) // Scale animasyonu
+                }
             }
             .padding()
 
@@ -136,7 +147,10 @@ struct ConversionToolView: View {
             result = value
         }
 
-        convertedValue = String(format: "%.3f", result)
+        withAnimation { // Dönüşüm sonucu animasyonla görünür
+            convertedValue = String(format: "%.3f", result)
+            showConvertedValue = true
+        }
     }
     
     private func reset() {
@@ -145,6 +159,7 @@ struct ConversionToolView: View {
         selectedFromUnit = "m"
         selectedToUnit = "km"
         selectedPresetValue = "1"
+        showConvertedValue = false // Sonuçları gizle
     }
     
     func setupConversionTabBarAppearance() {
@@ -161,6 +176,7 @@ struct ConversionToolView_Previews: PreviewProvider {
         ConversionToolView()
     }
 }
+
 
 
 
