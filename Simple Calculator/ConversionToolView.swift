@@ -57,21 +57,11 @@ struct ConversionToolView: View {
             }
             .padding()
 
-            Button(action: {
-                withAnimation { // Sıfırlama animasyonu
-                    reset()
-                }
-            }) {
-                Image(systemName: "arrow.uturn.left")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 12, height: 12)
-                    .foregroundColor(.blue)
-                    .padding()
-            }
-            .padding(.top, -30)
-            .padding(.trailing, 20)
-            .frame(maxWidth: .infinity, alignment: .trailing)
+            ResetButton(action: reset)
+//                
+//                .padding(.top, -30)
+//            .padding(.trailing, 20)
+//            .frame(maxWidth: .infinity, alignment: .trailing)
 
             // From Unit Selection
             Picker("From Unit", selection: $selectedFromUnit) {
