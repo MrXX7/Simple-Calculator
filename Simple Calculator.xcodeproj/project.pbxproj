@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		AD3C80A32C99A1EB00527F8C /* PresetValuePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3C80A22C99A1EB00527F8C /* PresetValuePicker.swift */; };
 		AD3C80A52C99A26800527F8C /* ResetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3C80A42C99A26800527F8C /* ResetButton.swift */; };
+		AD3C80A72C99A3E900527F8C /* InputSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3C80A62C99A3E900527F8C /* InputSection.swift */; };
 		AD9352B62C7DE87900F91A86 /* Simple_CalculatorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9352B52C7DE87900F91A86 /* Simple_CalculatorApp.swift */; };
 		AD9352B82C7DE87900F91A86 /* CalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9352B72C7DE87900F91A86 /* CalculatorView.swift */; };
 		AD9352BA2C7DE87A00F91A86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD9352B92C7DE87A00F91A86 /* Assets.xcassets */; };
@@ -22,6 +23,7 @@
 /* Begin PBXFileReference section */
 		AD3C80A22C99A1EB00527F8C /* PresetValuePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetValuePicker.swift; sourceTree = "<group>"; };
 		AD3C80A42C99A26800527F8C /* ResetButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetButton.swift; sourceTree = "<group>"; };
+		AD3C80A62C99A3E900527F8C /* InputSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSection.swift; sourceTree = "<group>"; };
 		AD9352B22C7DE87900F91A86 /* Simple Calculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Simple Calculator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD9352B52C7DE87900F91A86 /* Simple_CalculatorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Simple_CalculatorApp.swift; sourceTree = "<group>"; };
 		AD9352B72C7DE87900F91A86 /* CalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorView.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 				ADB3411E2C8B29690094A409 /* ContentView.swift */,
 				ADB341202C8B29A00094A409 /* ConversionToolView.swift */,
 				AD3C80A22C99A1EB00527F8C /* PresetValuePicker.swift */,
+				AD3C80A62C99A3E900527F8C /* InputSection.swift */,
 				AD3C80A42C99A26800527F8C /* ResetButton.swift */,
 				ADB3411C2C8B28820094A409 /* UnitConverterView.swift */,
 				ADB195FC2C8C9D2900C9AEEB /* MainView.swift */,
@@ -160,6 +163,7 @@
 				ADB341212C8B29A00094A409 /* ConversionToolView.swift in Sources */,
 				ADB195FD2C8C9D2900C9AEEB /* MainView.swift in Sources */,
 				AD9352B82C7DE87900F91A86 /* CalculatorView.swift in Sources */,
+				AD3C80A72C99A3E900527F8C /* InputSection.swift in Sources */,
 				AD3C80A52C99A26800527F8C /* ResetButton.swift in Sources */,
 				AD3C80A32C99A1EB00527F8C /* PresetValuePicker.swift in Sources */,
 				ADB3411D2C8B28820094A409 /* UnitConverterView.swift in Sources */,

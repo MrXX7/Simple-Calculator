@@ -42,26 +42,9 @@ struct ConversionToolView: View {
             }
 
             // Input Section
-            HStack {
-                Text("Input")
-                    .font(.title2)
-                    .padding(.leading)
-                Spacer()
-                TextField("Enter value", text: $inputValue)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .keyboardType(.decimalPad)
-                    .frame(width: 150)
-                    .onChange(of: inputValue) { _ in
-                        convertUnits()
-                    }
-            }
-            .padding()
-
+            InputSection(inputValue: $inputValue, convertUnits: convertUnits)
+            
             ResetButton(action: reset)
-//                
-//                .padding(.top, -30)
-//            .padding(.trailing, 20)
-//            .frame(maxWidth: .infinity, alignment: .trailing)
 
             // From Unit Selection
             Picker("From Unit", selection: $selectedFromUnit) {
