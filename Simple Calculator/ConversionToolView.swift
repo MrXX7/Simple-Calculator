@@ -13,11 +13,12 @@ struct ConversionToolView: View {
     @State private var selectedFromUnit: String = "m"
     @State private var selectedToUnit: String = "km"
     @State private var selectedPresetValue: String = "1"
-    @State private var showConvertedValue = false // Animasyon için yeni state
+    @State private var showConvertedValue = false
 
     let units = ["m", "km", "mi", "cm"]
     let unitNames = ["Meters": "m", "Kilometers": "km", "Miles": "mi", "Centimeters": "cm"]
     let presetValues = ["1", "10", "25", "50", "100", "250", "500", "1000"]
+
 
     var body: some View {
         VStack(spacing: 20) {
@@ -27,25 +28,18 @@ struct ConversionToolView: View {
             
             // Reset Button
             
-
+            
             // Preset Values
-            Picker("Preset Values", selection: $selectedPresetValue) {
-                ForEach(presetValues, id: \.self) { value in
-                    Text(value)
-                }
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding()
-            .onChange(of: selectedPresetValue) { newValue in
-                inputValue = newValue
-                convertUnits()
-            }
-
+            PresetValuePicker(presetValues: presetValues,
+                              selectedPresetValue: $selectedPresetValue,
+                              inputValue: $inputValue, // Pass inputValue as a binding
+                              convertUnits: convertUnits) //
+            
             // Input Section
             InputSection(inputValue: $inputValue, convertUnits: convertUnits)
             
             ResetButton(action: reset)
-
+            
             // From Unit Selection
             Picker("From Unit", selection: $selectedFromUnit) {
                 ForEach(units, id: \.self) { unit in
@@ -57,7 +51,7 @@ struct ConversionToolView: View {
             .onChange(of: selectedFromUnit) { _ in
                 convertUnits()
             }
-
+            
             // To Unit Selection
             Picker("To Unit", selection: $selectedToUnit) {
                 ForEach(units, id: \.self) { unit in
@@ -69,14 +63,14 @@ struct ConversionToolView: View {
             .onChange(of: selectedToUnit) { _ in
                 convertUnits()
             }
-
+            
             // Result Section
             HStack {
                 Text("Converted")
                     .font(.title2)
                     .padding(.leading)
                 Spacer()
-
+                
                 // Animasyonla sonucu gösterme
                 if showConvertedValue {
                     Text(convertedValue.isEmpty ? "Result" : convertedValue)
@@ -86,7 +80,7 @@ struct ConversionToolView: View {
                 }
             }
             .padding()
-
+            
             Spacer()
         }
         .padding()
