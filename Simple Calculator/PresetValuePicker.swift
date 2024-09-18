@@ -11,7 +11,7 @@ struct PresetValuePicker: View {
     let presetValues: [String]
     @Binding var selectedPresetValue: String
     @Binding var inputValue: String // Binding to update inputValue
-    let convertUnits: () -> Void // A function passed from the parent
+    let convertUnits: () -> Void // Function passed from the parent
 
     var body: some View {
         Picker("Preset Values", selection: $selectedPresetValue) {
@@ -22,8 +22,8 @@ struct PresetValuePicker: View {
         .pickerStyle(SegmentedPickerStyle())
         .padding()
         .onChange(of: selectedPresetValue) { newValue in
-            inputValue = newValue // Update inputValue from selected preset
-            convertUnits() // Call the conversion function after changing
+            inputValue = newValue // Update inputValue from the selected preset
+            convertUnits() // Trigger the conversion function
         }
     }
 }

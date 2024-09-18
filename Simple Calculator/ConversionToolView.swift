@@ -26,8 +26,6 @@ struct ConversionToolView: View {
                 .font(.largeTitle)
                 .padding()
             
-            // Reset Button
-            
             
             // Preset Values
             PresetValuePicker(presetValues: presetValues,
@@ -40,30 +38,22 @@ struct ConversionToolView: View {
             
             ResetButton(action: reset)
             
-            // From Unit Selection
-            Picker("From Unit", selection: $selectedFromUnit) {
-                ForEach(units, id: \.self) { unit in
-                    Text(unitNames.first { $0.value == unit }?.key ?? "")
-                }
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding()
-            .onChange(of: selectedFromUnit) { _ in
-                convertUnits()
-            }
+            UnitPicker(
+                title: "From Unit",
+                selectedUnit: $selectedFromUnit,
+                units: units,
+                unitNames: unitNames,
+                convertUnits: convertUnits // Pass convertUnits as a closure
+            )
             
             // To Unit Selection
-            Picker("To Unit", selection: $selectedToUnit) {
-                ForEach(units, id: \.self) { unit in
-                    Text(unitNames.first { $0.value == unit }?.key ?? "")
-                }
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding()
-            .onChange(of: selectedToUnit) { _ in
-                convertUnits()
-            }
-            
+            UnitPicker(
+                title: "To Unit",
+                selectedUnit: $selectedToUnit,
+                units: units,
+                unitNames: unitNames,
+                convertUnits: convertUnits // Pass convertUnits as a closure
+            )
             // Result Section
             HStack {
                 Text("Converted")
