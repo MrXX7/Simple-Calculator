@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD302B882C9CA81C0060D809 /* ResultSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD302B872C9CA81C0060D809 /* ResultSection.swift */; };
 		AD3C80A32C99A1EB00527F8C /* PresetValuePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3C80A22C99A1EB00527F8C /* PresetValuePicker.swift */; };
 		AD3C80A52C99A26800527F8C /* ResetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3C80A42C99A26800527F8C /* ResetButton.swift */; };
 		AD3C80A72C99A3E900527F8C /* InputSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3C80A62C99A3E900527F8C /* InputSection.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AD302B872C9CA81C0060D809 /* ResultSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultSection.swift; sourceTree = "<group>"; };
 		AD3C80A22C99A1EB00527F8C /* PresetValuePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetValuePicker.swift; sourceTree = "<group>"; };
 		AD3C80A42C99A26800527F8C /* ResetButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetButton.swift; sourceTree = "<group>"; };
 		AD3C80A62C99A3E900527F8C /* InputSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSection.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 				AD4D55962C9ADF6400D32C14 /* UnitPicker.swift */,
 				ADB3411E2C8B29690094A409 /* ContentView.swift */,
 				ADB341202C8B29A00094A409 /* ConversionToolView.swift */,
+				AD302B872C9CA81C0060D809 /* ResultSection.swift */,
 				AD3C80A22C99A1EB00527F8C /* PresetValuePicker.swift */,
 				AD3C80A62C99A3E900527F8C /* InputSection.swift */,
 				AD3C80A42C99A26800527F8C /* ResetButton.swift */,
@@ -166,6 +169,7 @@
 				ADB341212C8B29A00094A409 /* ConversionToolView.swift in Sources */,
 				ADB195FD2C8C9D2900C9AEEB /* MainView.swift in Sources */,
 				AD9352B82C7DE87900F91A86 /* CalculatorView.swift in Sources */,
+				AD302B882C9CA81C0060D809 /* ResultSection.swift in Sources */,
 				AD3C80A72C99A3E900527F8C /* InputSection.swift in Sources */,
 				AD3C80A52C99A26800527F8C /* ResetButton.swift in Sources */,
 				AD3C80A32C99A1EB00527F8C /* PresetValuePicker.swift in Sources */,
