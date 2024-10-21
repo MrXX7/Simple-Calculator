@@ -46,6 +46,8 @@ struct CalculatorView: View {
                         ForEach(row, id: \.self) { button in
                             Button(action: {
                                 self.buttonTapped(button)
+                                let generator = UIImpactFeedbackGenerator(style: .light)
+                                generator.impactOccurred()
                             }) {
                                 Text(button)
                                     .font(.system(size: 32))
