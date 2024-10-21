@@ -14,6 +14,8 @@ struct ResetButton: View {
         Button(action: {
             withAnimation { // Sıfırlama animasyonu
                 action()
+                let generator = UIImpactFeedbackGenerator(style: .light)
+                generator.impactOccurred()
             }
         }) {
             Image(systemName: "arrow.uturn.left")

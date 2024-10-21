@@ -55,21 +55,7 @@ struct ConversionToolView: View {
                 convertUnits: convertUnits // Pass convertUnits as a closure
             )
             // Result Section
-            HStack {
-                Text("Converted")
-                    .font(.title2)
-                    .padding(.leading)
-                Spacer()
-                
-                // Animasyonla sonucu gösterme
-                if showConvertedValue {
-                    Text(convertedValue.isEmpty ? "Result" : convertedValue)
-                        .font(.title)
-                        .padding(.trailing)
-                        .transition(.scale) // Scale animasyonu
-                }
-            }
-            .padding()
+            ResultSection(convertedValue: $convertedValue, showConvertedValue: $showConvertedValue)
             
             Spacer()
         }
