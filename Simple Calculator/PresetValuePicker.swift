@@ -8,23 +8,36 @@
 import SwiftUI
 
 struct PresetValuePicker: View {
+    // MARK: - Properties
     let presetValues: [String]
     @Binding var selectedPresetValue: String
-    @Binding var inputValue: String // Binding to update inputValue
-    let convertUnits: () -> Void // Function passed from the parent
-
+    @Binding var inputValue: String
+    let convertUnits: () -> Void
+    
+    // MARK: - Constants
+    private enum Constants {
+        static let pickerPadding: CGFloat = 16
+        static let pickerLabel = "Preset Values"
+    }
+    
+    // MARK: - Body
     var body: some View {
-        Picker("Preset Values", selection: $selectedPresetValue) {
-            ForEach(presetValues, id: \.self) { value in
-                Text(value)
+        Picker(Constants.pickerLabel, selection: $selectedPresetValue) {
+            ForEach(presetValues, id: \.self) {
+                Text($0)
             }
         }
-        .pickerStyle(SegmentedPickerStyle())
-        .padding()
+        .pickerStyle(.segmented)
+        .padding(Constants.pickerPadding)
         .onChange(of: selectedPresetValue) { newValue in
-            inputValue = newValue // Update inputValue from the selected preset
-            convertUnits() // Trigger the conversion function
+            handlePresetSelection(newValue)
         }
+    }
+    
+    // MARK: - Private Methods
+    private func handlePresetSelection(_ newValue: String) {
+        inputValue = newValue
+        convertUnits()
     }
 }
 
