@@ -8,23 +8,41 @@
 import SwiftUI
 
 struct InputSection: View {
+    // MARK: - Properties
     @Binding var inputValue: String
     let convertUnits: () -> Void
     
+    // MARK: - Constants
+    private enum Constants {
+        static let textFieldWidth: CGFloat = 150
+        static let horizontalPadding: CGFloat = 16
+        static let titleFont: Font = .title2
+    }
+    
+    // MARK: - Body
     var body: some View {
         HStack {
-            Text("Input")
-                .font(.title2)
-                .padding(.leading)
+            titleLabel
             Spacer()
-            TextField("Enter value", text: $inputValue)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .keyboardType(.decimalPad)
-                .frame(width: 150)
-                .onChange(of: inputValue) { _ in
-                    convertUnits()
-                }
+            valueTextField
         }
         .padding()
+    }
+    
+    // MARK: - Subviews
+    private var titleLabel: some View {
+        Text("Input")
+            .font(Constants.titleFont)
+            .padding(.leading, Constants.horizontalPadding)
+    }
+    
+    private var valueTextField: some View {
+        TextField("Enter value", text: $inputValue)
+            .textFieldStyle(.roundedBorder)
+            .keyboardType(.decimalPad)
+            .frame(width: Constants.textFieldWidth)
+            .onChange(of: inputValue) { _ in
+                convertUnits()
+            }
     }
 }
